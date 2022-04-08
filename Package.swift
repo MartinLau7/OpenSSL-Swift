@@ -1,5 +1,5 @@
-	// swift-tools-version:5.4
-	// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.5
+// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
@@ -67,17 +67,22 @@ let package = Package(
 	targets: .collection([
 		// Targets are the basic building blocks of a package. A target can define a module or a test suite.
 		// Targets can depend on other targets in this package, and on products in packages this package depends on.
-		.productItem(.binaryTarget(
-			name: "openssl",
-			url: "https://github.com/MartinLau7/openssl-apple/releases/download/v1.1.1l/openssl-static.xcframework.zip",
-			checksum: "1537e388195f64f314cf1821325edd73e0f5840476b062e725d15c44ef58b98e"
-		), when: [.macOS, .iOS, .tvOS, .watchOS]),
-		.productItem(.systemLibrary(
-			name: "openssl",
-			pkgConfig: "openssl",
-			providers: [
-				.apt(["openssl libssl-dev"]),
-			]
-		), when: [.linux]),
+		.productItem(
+			.binaryTarget(
+				name: "openssl",
+				url: "https://github.com/MartinLau7/openssl-apple/releases/download/v1.1.1n/openssl-static.xcframework.zip",
+				checksum: "d33972ea9fbffa7ec52cc9f81cac355c6271cefcefb29872b6da4a7d932673ae"
+			),
+			when: [.macOS, .iOS, .tvOS, .watchOS]
+		),
+		.productItem(
+			.systemLibrary(
+				name: "openssl",
+				pkgConfig: "openssl",
+				providers: [
+					.apt(["openssl libssl-dev"])
+				]
+			), when: [.linux]
+		),
 	])
 )
