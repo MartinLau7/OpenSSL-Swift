@@ -4,29 +4,29 @@
 import PackageDescription
 
 extension Platform {
-#if os(macOS)
-	static let current: Platform = .macOS
-#elseif os(iOS)
-	static let current: Platform = .iOS
-#elseif os(tvOS)
-	static let current: Platform = .tvOS
-#elseif os(watchOS)
-	static let current: Platform = .watchOS
-#elseif os(Linux)
-	static let current: Platform = .linux
-#elseif os(Windows)
-	static let current: Platform = .windows
-#else
-#error("Unsupported platform.")
-#endif
+	#if os(macOS)
+		static let current: Platform = .macOS
+	#elseif os(iOS)
+		static let current: Platform = .iOS
+	#elseif os(tvOS)
+		static let current: Platform = .tvOS
+	#elseif os(watchOS)
+		static let current: Platform = .watchOS
+	#elseif os(Linux)
+		static let current: Platform = .linux
+	#elseif os(Windows)
+		static let current: Platform = .windows
+	#else
+		#error("Unsupported platform.")
+	#endif
 }
 
-extension Array {
-	fileprivate static func collection<Element>(_ items: [[Element]]) -> [Element] {
+private extension Array {
+	static func collection<Element>(_ items: [[Element]]) -> [Element] {
 		return items.flatMap { $0 }
 	}
-	
-	fileprivate static func productItem<Element>(_ item: Element, when platforms: [Platform]? = nil) -> [Element] {
+
+	static func productItem<Element>(_ item: Element, when platforms: [Platform]? = nil) -> [Element] {
 		if let platforms = platforms {
 			if !platforms.contains(.current) {
 				return []
@@ -34,8 +34,8 @@ extension Array {
 		}
 		return [item]
 	}
-	
-	fileprivate static func productItems<Element>(_ items: [Element], when platforms: [Platform]? = nil) -> [Element] {
+
+	static func productItems<Element>(_ items: [Element], when platforms: [Platform]? = nil) -> [Element] {
 		if let platforms = platforms {
 			if !platforms.contains(.current) {
 				return []
@@ -57,7 +57,8 @@ let package = Package(
 		// Products define the executables and libraries a package produces, and make them visible to other packages.
 		.library(
 			name: "OpenSSL",
-			targets: ["openssl"]),
+			targets: ["openssl"]
+		),
 	],
 	dependencies: [
 		// Dependencies declare other packages that this package depends on.
@@ -79,9 +80,10 @@ let package = Package(
 				name: "openssl",
 				pkgConfig: "openssl",
 				providers: [
-					.apt(["openssl libssl-dev"])
+					.apt(["openssl libssl-dev"]),
 				]
-			), when: [.linux]
+			),
+			when: [.linux]
 		),
 	])
 )
