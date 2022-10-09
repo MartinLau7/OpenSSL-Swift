@@ -22,7 +22,6 @@ extension Platform {
 }
 
 extension Array {
-	
 	fileprivate static func collection<Element>(_ items: [[Element]]) -> [Element] {
 		return items.flatMap { $0 }
 	}
@@ -70,8 +69,8 @@ let package = Package(
 		.productItem(
 			.binaryTarget(
 				name: "openssl",
-				url: "https://github.com/MartinLau7/openssl-apple/releases/download/v1.1.1n/openssl-static.xcframework.zip",
-				checksum: "d33972ea9fbffa7ec52cc9f81cac355c6271cefcefb29872b6da4a7d932673ae"
+				url: "https://github.com/MartinLau7/openssl-apple/releases/download/v1.1.1q/openssl-static.xcframework.zip",
+				checksum: "2b7380f8d2f4dc716f932569132e530fe9e561c6f709eab36c86add049ff346a"
 			),
 			when: [.macOS, .iOS, .tvOS, .watchOS]
 		),
