@@ -1,4 +1,4 @@
-module OpenSSL [system] {
+module openssl [system] {
     header "OpenSSLShim.h"
     link "ssl"
     link "crypto"

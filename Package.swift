@@ -56,7 +56,7 @@ let package = Package(
 	products: [
 		// Products define the executables and libraries a package produces, and make them visible to other packages.
 		.library(
-			name: "OpenSSL",
+			name: "openssl",
 			targets: ["openssl"]
 		),
 	],
@@ -71,7 +71,7 @@ let package = Package(
 			.binaryTarget(
 				name: "openssl",
 				url: "https://github.com/MartinLau7/openssl-apple/releases/download/v1.1.1q/openssl-static.xcframework.zip",
-				checksum: "c255cdd3ddfd499ec2801cd8de403d113190274d2a3a67a0346f97bf618a2c19"
+				checksum: "06741ef2d3781f456741d859fcdca22a9f5ed605e4abeab9b6c027d91830fbf8"
 			),
 			when: [.macOS, .iOS, .tvOS, .watchOS]
 		),
