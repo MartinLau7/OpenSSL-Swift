@@ -70,7 +70,7 @@ let package = Package(
 		.productItem(
 			.binaryTarget(
 				name: "openssl",
-				url: "https://github.com/MartinLau7/openssl-apple/releases/download/v1.1.1w/openssl-static.xcframework.zip",
+				url: "https://github.com/MartinLau7/openssl-apple/releases/download/v1.1.1w-1/openssl-static.xcframework.zip",
 				checksum: "6eb6482ce8d8c35126760859b272e0b9e4a1250f8021ed3546d0eaa39b95492d"
 			),
 			when: [.macOS, .iOS, .tvOS, .watchOS]
