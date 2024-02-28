@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -22,11 +22,11 @@ extension Platform {
 }
 
 private extension Array {
-	static func collection<Element>(_ items: [[Element]]) -> [Element] {
+	static func collection(_ items: [[Element]]) -> [Element] {
 		return items.flatMap { $0 }
 	}
 
-	static func productItem<Element>(_ item: Element, when platforms: [Platform]? = nil) -> [Element] {
+	static func productItem(_ item: Element, when platforms: [Platform]? = nil) -> [Element] {
 		if let platforms = platforms {
 			if !platforms.contains(.current) {
 				return []
@@ -35,7 +35,7 @@ private extension Array {
 		return [item]
 	}
 
-	static func productItems<Element>(_ items: [Element], when platforms: [Platform]? = nil) -> [Element] {
+	static func productItems(_ items: [Element], when platforms: [Platform]? = nil) -> [Element] {
 		if let platforms = platforms {
 			if !platforms.contains(.current) {
 				return []
