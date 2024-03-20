@@ -46,7 +46,7 @@ private extension Array {
 }
 
 let package = Package(
-	name: "OpenSSL",
+	name: "COpenSSL",
 	platforms: [
 		.iOS(.v12),
 		.macOS(.v10_14),
@@ -56,7 +56,7 @@ let package = Package(
 	products: [
 		// Products define the executables and libraries a package produces, and make them visible to other packages.
 		.library(
-			name: "OpenSSL",
+			name: "COpenSSL",
 			targets: ["openssl"]
 		),
 	],
