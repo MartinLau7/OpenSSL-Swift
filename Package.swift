@@ -31,6 +31,15 @@ let package = Package(
 	targets: .collection([
 		// Targets are the basic building blocks of a package. A target can define a module or a test suite.
 		// Targets can depend on other targets in this package, and on products in packages this package depends on.
+		[
+			.target(
+				name: "COpenSSL",
+				dependencies: [
+					"OpenSSL",
+				],
+				path: "Sources/COpenSSL",
+			),
+		],
 		.productItem(
 			.binaryTarget(
 				name: "OpenSSL",
@@ -56,13 +65,6 @@ let package = Package(
 							"-Xlinker", "--no-whole-archive",
 						]),
 					]
-				),
-				.target(
-					name: "COpenSSL",
-					dependencies: [
-						"OpenSSL",
-					],
-					path: "Sources/COpenSSL",
 				),
 			],
 			when: [.linux]
