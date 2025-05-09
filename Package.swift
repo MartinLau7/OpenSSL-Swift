@@ -3,12 +3,10 @@
 
 import PackageDescription
 
-#if os(Linux)
-	#if arch(aarch64) || arch(arm64)
-		let targetTriple = "aarch64-linux-gnu"
-	#else
-		let targetTriple = "x86_64-linux-gnu"
-	#endif
+#if arch(aarch64) || arch(arm64)
+	let targetTriple = "aarch64-linux-gnu"
+#else
+	let targetTriple = "x86_64-linux-gnu"
 #endif
 
 let package = Package(
