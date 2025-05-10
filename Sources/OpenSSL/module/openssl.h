@@ -101,7 +101,7 @@
 #include <openssl/x509v3.h>
 #include <openssl/x509v3err.h>
 
-#if openssl_VERSION_MAJOR >= 3
+#if OPENSSL_VERSION_MAJOR >= 3
 #include <openssl/cmp.h>
 #include <openssl/cmp_util.h>
 #include <openssl/cmperr.h>
