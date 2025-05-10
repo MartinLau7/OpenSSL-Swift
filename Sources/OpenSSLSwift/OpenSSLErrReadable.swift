@@ -4,7 +4,7 @@
     @_implementationOnly import OpenSSL
 #endif
 
-protocol OpenSSLErrReadable {}
+public protocol OpenSSLErrReadable {}
 
 extension OpenSSLErrReadable {
     func readError() -> (errCode: UInt, errorDescription: String)? {

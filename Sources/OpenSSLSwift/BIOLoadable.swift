@@ -10,9 +10,9 @@
     import Foundation
 #endif
 
-protocol BIOLoadable {}
+public protocol BIOLoadable {}
 
-enum BIOLoadableError: Error {
+public enum BIOLoadableError: Error {
     case failedToLoadBIO
 }
 
