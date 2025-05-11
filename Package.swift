@@ -12,10 +12,10 @@ import PackageDescription
 let package = Package(
 	name: "OpenSSL-Swift",
 	platforms: [
-		.iOS(.v12),
-		.macOS(.v10_14),
-		.watchOS(.v7),
-		.tvOS(.v14),
+		.iOS(.v17),
+		.macOS(.v14),
+		.watchOS(.v10),
+		.tvOS(.v17),
 	],
 	products: [
 		// Products define the executables and libraries a package produces, and make them visible to other packages.
