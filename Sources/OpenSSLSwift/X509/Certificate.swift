@@ -10,7 +10,7 @@
     import Foundation
 #endif
 
-public final class Certificate: BIOLoadable {
+public final class Certificate {
     /// (Incomplete collection of) signature algorithm types of `X.509` certificates.
     public enum SignatureAlgorithm {
         /// ECDSA with SHA 256
@@ -40,10 +40,12 @@ public final class Certificate: BIOLoadable {
         }
     }
 
-    public init(pem: Data) throws {
-        x509 = try Self.load(buffer: pem) { bio in
-            PEM_read_bio_X509(bio, nil, nil, nil)
+    public init(pem data: Data) throws {
+        let bio = try Bio.load(buffer: data)
+        guard let x509 = PEM_read_bio_X509(bio.bio, nil, nil, nil) else {
+            throw CertificateError.invalidPEMDocument
         }
+        self.x509 = x509
     }
 
     /// De-initialize

@@ -10,7 +10,7 @@
     import Foundation
 #endif
 
-public final class Pkcs12Store: BIOLoadable {
+public final class Pkcs12Store {
     let p12: OpaquePointer
     var privateKey: OpaquePointer?
     var x509: OpaquePointer?

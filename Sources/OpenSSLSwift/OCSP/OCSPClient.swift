@@ -11,6 +11,8 @@ import Logging
 
 #if canImport(FoundationNetworking)
     import FoundationNetworking
+#else
+    import Foundation
 #endif
 
 public struct OCSPClient: Sendable {
