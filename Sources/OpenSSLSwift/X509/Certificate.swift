@@ -1,8 +1,4 @@
-#if compiler(>=6)
-    internal import OpenSSL
-#else
-    @_implementationOnly import OpenSSL
-#endif
+internal import OpenSSL
 
 #if canImport(FoundationEssentials)
     import FoundationEssentials
@@ -41,8 +37,8 @@ public final class Certificate {
     }
 
     public init(pem data: Data) throws {
-        let bio = try Bio.load(buffer: data)
-        guard let x509 = PEM_read_bio_X509(bio.bio, nil, nil, nil) else {
+        let bio = try ByteIO.load(buffer: data)
+        guard let x509 = PEM_read_bio_X509(bio, nil, nil, nil) else {
             throw CertificateError.invalidPEMDocument
         }
         self.x509 = x509

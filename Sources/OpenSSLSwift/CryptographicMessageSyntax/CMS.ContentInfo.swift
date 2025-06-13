@@ -1,10 +1,5 @@
-// #if compiler(>=6)
 //     internal import OpenSSL
 //     internal import COpenSSL
-// #else
-//     @_implementationOnly import COpenSSL
-//     @_implementationOnly import OpenSSL
-// #endif
 
 // #if canImport(FoundationEssentials)
 //     import FoundationEssentials

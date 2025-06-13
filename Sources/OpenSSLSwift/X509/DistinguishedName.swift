@@ -1,8 +1,5 @@
-#if compiler(>=6)
-    internal import OpenSSL
-#else
-    @_implementationOnly import OpenSSL
-#endif
+internal import OpenSSL
+internal import COpenSSL
 
 typealias X509Name = OpaquePointer
 
@@ -78,7 +75,7 @@ public final class DistinguishedName: CustomStringConvertible {
     }
 
     public var hash: UInt {
-        return X509_NAME_hash_ex(x509Name, nil, nil, nil)
+        return cc_X509_NAME_hash(x509Name)
     }
 
     public var description: String {

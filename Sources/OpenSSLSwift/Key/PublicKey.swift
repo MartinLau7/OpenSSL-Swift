@@ -1,10 +1,5 @@
-#if compiler(>=6)
-    internal import OpenSSL
-    internal import COpenSSL
-#else
-    @_implementationOnly import COpenSSL
-    @_implementationOnly import OpenSSL
-#endif
+internal import OpenSSL
+internal import COpenSSL
 
 #if canImport(FoundationEssentials)
     import FoundationEssentials
@@ -64,7 +59,7 @@ public struct PublicKey: ~Copyable {
         }
 
         var ptr: UnsafeMutablePointer<Int8>?
-        let len = c_BIO_get_mem_data(bio, &ptr)
+        let len = cc_BIO_get_mem_data(bio, &ptr)
 
         guard let ptr = ptr, len > 0 else {
             throw KeyError.keyExportFailed("No data in BIO")

@@ -1,10 +1,5 @@
-#if compiler(>=6)
-    internal import OpenSSL
-    internal import COpenSSL
-#else
-    @_implementationOnly import COpenSSL
-    @_implementationOnly import OpenSSL
-#endif
+internal import OpenSSL
+internal import COpenSSL
 
 #if canImport(FoundationEssentials)
     import FoundationEssentials
@@ -29,13 +24,13 @@ struct OCSPRequest {
         let ocspURLs = X509_get1_ocsp(issuer.x509)
         defer { OPENSSL_sk_free(ocspURLs) }
 
-        let ocspURLCount = c_sk_OPENSSL_STRING_num(ocspURLs)
+        let ocspURLCount = cc_sk_OPENSSL_STRING_num(ocspURLs)
         guard ocspURLCount >= 1 else {
             throw OCSPError.badURL
         }
         var ocspURL: URL?
         for index in 0 ..< ocspURLCount {
-            guard let urlStr = c_sk_OPENSSL_STRING_value(ocspURLs, numericCast(index)),
+            guard let urlStr = cc_sk_OPENSSL_STRING_value(ocspURLs, numericCast(index)),
                   let url = String(validatingCString: urlStr).flatMap({ URL(string: $0) })
             else {
                 continue
@@ -60,7 +55,7 @@ struct OCSPRequest {
         let bio = BIO_new(BIO_s_mem())
         defer { BIO_free(bio) }
 
-        guard c_i2d_OCSP_REQUEST_bio(bio, request) > 0 else {
+        guard cc_i2d_OCSP_REQUEST_bio(bio, request) > 0 else {
             throw OCSPRequestError.failedToGenerateRequest
         }
 

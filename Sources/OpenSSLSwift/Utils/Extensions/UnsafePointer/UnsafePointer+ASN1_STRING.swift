@@ -1,8 +1,4 @@
-#if compiler(>=6)
-    internal import OpenSSL
-#else
-    @_implementationOnly import OpenSSL
-#endif
+internal import OpenSSL
 
 import Foundation
 

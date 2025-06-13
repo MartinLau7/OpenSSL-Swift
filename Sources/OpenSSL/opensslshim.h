@@ -1,3 +1,5 @@
+#pragma once
+
 #include <openssl/aes.h>
 #include <openssl/asn1.h>
 #include <openssl/asn1err.h>
@@ -101,7 +103,18 @@
 #include <openssl/x509v3.h>
 #include <openssl/x509v3err.h>
 
-#if OPENSSL_VERSION_MAJOR >= 3
+#define OPENSSL_VERSION_1_1_1 0x10101000L
+#define OPENSSL_VERSION_3_0_0 0x30000000L
+#define OPENSSL_VERSION_3_5_0 0x30200000L
+
+#define OPENSSL_AT_LEAST(x) \
+    (OPENSSL_VERSION_NUMBER >= (x))
+
+#if OPENSSL_VERSION_NUMBER >= OPENSSL_VERSION_3_0_0
+#define USING_OPENSSL_3_X
+#endif
+
+#ifdef USING_OPENSSL_3_X
 #include <openssl/cmp.h>
 #include <openssl/cmp_util.h>
 #include <openssl/cmperr.h>

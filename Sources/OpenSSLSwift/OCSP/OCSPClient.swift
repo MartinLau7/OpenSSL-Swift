@@ -1,13 +1,7 @@
-// import AsyncHTTPClient
 import Logging
 
-#if compiler(>=6)
-    internal import OpenSSL
-    internal import COpenSSL
-#else
-    @_implementationOnly import COpenSSL
-    @_implementationOnly import OpenSSL
-#endif
+internal import OpenSSL
+internal import COpenSSL
 
 #if canImport(FoundationNetworking)
     import FoundationNetworking
@@ -24,9 +18,9 @@ public struct OCSPClient: Sendable {
 
     public static func supportsOCSP(certificate: Certificate) -> Bool {
         let ocspURLs = X509_get1_ocsp(certificate.x509)
-        defer { c_sk_OPENSSL_STRING_free(ocspURLs) }
+        defer { cc_sk_OPENSSL_STRING_free(ocspURLs) }
 
-        return c_sk_OPENSSL_STRING_num(ocspURLs) > 0
+        return cc_sk_OPENSSL_STRING_num(ocspURLs) > 0
     }
 
     /// Request Certificate Status
