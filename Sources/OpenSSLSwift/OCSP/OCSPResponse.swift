@@ -1,4 +1,4 @@
-internal import OpenSSL
+internal import COpenSSL
 
 #if canImport(FoundationEssentials)
     import FoundationEssentials

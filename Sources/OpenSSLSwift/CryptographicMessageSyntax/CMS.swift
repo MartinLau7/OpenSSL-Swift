@@ -1,5 +1,5 @@
-//     internal import OpenSSL
-//     internal import COpenSSL
+// internal import OpenSSL
+// internal import COpenSSL
 
 // #if canImport(FoundationEssentials)
 //     import FoundationEssentials
@@ -7,7 +7,7 @@
 //     import Foundation
 // #endif
 
-// public final class CMS: OpenSSLErrReadable {
+// public final class CMS {
 //     public struct ContentInfo {
 //         // OID
 //         public enum ContentType: String {

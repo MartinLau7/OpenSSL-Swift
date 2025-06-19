@@ -1,5 +1,3 @@
-internal import OpenSSL
-
 #if canImport(FoundationEssentials)
     import FoundationEssentials
 #else

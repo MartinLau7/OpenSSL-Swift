@@ -1,24 +1,7 @@
-internal import OpenSSL
 internal import COpenSSL
 
-typealias X509Name = OpaquePointer
-
-public final class DistinguishedName: CustomStringConvertible {
-    public struct NameIdentifier: Sendable {
-        let value: Int32
-
-        init(_ value: Int32) {
-            self.value = value
-        }
-
-        static let commonName = NameIdentifier(NID_commonName)
-        static let countryName = NameIdentifier(NID_countryName)
-        static let localityName = NameIdentifier(NID_localityName)
-        static let stateOrProvinceName = NameIdentifier(NID_stateOrProvinceName)
-        static let organizationName = NameIdentifier(NID_organizationName)
-        static let organizationalUnitName = NameIdentifier(NID_organizationalUnitName)
-        static let streetAddress = NameIdentifier(NID_streetAddress)
-    }
+public struct DistinguishedName: CustomStringConvertible {
+    typealias X509Name = OpaquePointer
 
     let x509Name: X509Name
 
@@ -26,52 +9,32 @@ public final class DistinguishedName: CustomStringConvertible {
         x509Name = name
     }
 
-    deinit {
-        // X509_NAME_free(x509Name)
-    }
-
-    private func readEntryName(with nid: NameIdentifier) -> String? {
-        var lastpos: Int32 = -1
-        lastpos = X509_NAME_get_index_by_NID(x509Name, nid.value, lastpos)
-        guard lastpos != -1 && lastpos != -2 else {
-            return nil
-        }
-
-        let entry = X509_NAME_get_entry(x509Name, lastpos)
-        let asn1_str = X509_NAME_ENTRY_get_data(entry)
-        var encodedName: UnsafeMutablePointer<UInt8>? = nil
-        let stringLength = ASN1_STRING_to_UTF8(&encodedName, asn1_str)
-        guard let namePointer = encodedName else { return nil }
-        defer { namePointer.deallocate() }
-        return String(bytes: UnsafeBufferPointer(start: namePointer, count: numericCast(stringLength)), encoding: .utf8)
-    }
-
     public var commonName: String? {
-        readEntryName(with: .commonName)
+        readEntryName(with: .CN)
     }
 
     public var countryName: String? {
-        readEntryName(with: .countryName)
+        readEntryName(with: .C)
     }
 
     public var localityName: String? {
-        readEntryName(with: .localityName)
+        readEntryName(with: .L)
     }
 
     public var stateOrProvinceName: String? {
-        readEntryName(with: .stateOrProvinceName)
+        readEntryName(with: .ST)
     }
 
     public var organizationName: String? {
-        readEntryName(with: .organizationName)
+        readEntryName(with: .O)
     }
 
     public var organizationalUnitName: String? {
-        readEntryName(with: .organizationalUnitName)
+        readEntryName(with: .OU)
     }
 
     public var streetAddress: String? {
-        readEntryName(with: .streetAddress)
+        readEntryName(with: .street)
     }
 
     public var hash: UInt {
@@ -84,5 +47,26 @@ public final class DistinguishedName: CustomStringConvertible {
             free(name)
         }
         return String(cString: name)
+    }
+
+    private func readEntryName(with oid: OId) -> String {
+        guard let oid = OBJ_txt2obj(oid.oId, 1) else {
+            return ""
+        }
+
+        var lastpos: Int32 = -1
+        lastpos = X509_NAME_get_index_by_OBJ(x509Name, oid, lastpos)
+        guard lastpos != -1 && lastpos != -2 else {
+            return ""
+        }
+
+        let entry = X509_NAME_get_entry(x509Name, lastpos)
+        let asn1_str = X509_NAME_ENTRY_get_data(entry)
+        var encodedName: UnsafeMutablePointer<UInt8>? = nil
+        let stringLength = ASN1_STRING_to_UTF8(&encodedName, asn1_str)
+        defer {
+            encodedName?.deallocate()
+        }
+        return String(bytes: UnsafeBufferPointer(start: encodedName, count: numericCast(stringLength)), encoding: .utf8) ?? ""
     }
 }
