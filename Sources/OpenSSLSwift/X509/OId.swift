@@ -1,29 +1,33 @@
 internal import COpenSSL
 internal import OpenSSL
 
-import FoundationEssentials
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#else
+import Foundation
+#endif
 
 public struct OId: Sendable, Hashable {
     public let oId: String
     public let shortName: String
     public let longName: String
-
+    
     public init(oid: String, shortName: String? = nil, longName: String? = nil) {
         oId = oid
         self.shortName = shortName ?? ""
         self.longName = longName ?? ""
     }
-
+    
     public func hash(into hasher: inout Hasher) {
         hasher.combine(oId)
     }
-
+    
     public func getNid() throws -> Int32 {
         let asnRet = a2d_ASN1_OBJECT(nil, 0, oId, -1)
         guard asnRet > 0 else {
             throw CryptoError.internalError()
         }
-
+        
         guard let oid = OBJ_txt2obj(oId, 1) else {
             throw CryptoError.internalError()
         }

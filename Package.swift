@@ -58,7 +58,7 @@ let package = Package(
 				]
 			),
 			.testTarget(
-				name: "OpenSSLSwiftTests",
+				name: "OpenSSLTests",
 				dependencies: [
 					"OpenSSLSwift",
 				],
