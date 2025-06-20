@@ -1,9 +1,9 @@
 internal import COpenSSL
 
 #if canImport(FoundationEssentials)
-import FoundationEssentials
+    import FoundationEssentials
 #else
-import Foundation
+    import Foundation
 #endif
 
 extension UnsafePointer where Pointee == ASN1_GENERALIZEDTIME {

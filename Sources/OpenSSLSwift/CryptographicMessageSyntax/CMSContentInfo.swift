@@ -1,7 +1,11 @@
 //     internal import OpenSSL
 //     internal import COpenSSL
 
-// import Foundation
+// #if canImport(FoundationEssentials)
+//     import FoundationEssentials
+// #else
+//     import Foundation
+// #endif
 
 // /// CMSContentInfo
 // public final class CMSContent: OpenSSLErrReadable {

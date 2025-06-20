@@ -1,5 +1,10 @@
 internal import OpenSSL
-import Foundation
+
+#if canImport(FoundationEssentials)
+    import FoundationEssentials
+#else
+    import Foundation
+#endif
 
 // TODO: 参考 https://github.com/apple/swift-crypto/blob/3ef6559/Sources/_CryptoExtras/Util/CryptoKitErrors_boring.swift 进行改进
 public enum CryptoError: Error {

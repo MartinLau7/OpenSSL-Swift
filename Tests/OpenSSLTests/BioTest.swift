@@ -2,7 +2,11 @@
 @testable import OpenSSLSwift
 import Testing
 
-import Foundation
+#if canImport(FoundationEssentials)
+    import FoundationEssentials
+#else
+    import Foundation
+#endif
 
 @Suite("BIO Tests")
 final class BIOTests {
@@ -41,7 +45,7 @@ final class BIOTests {
             }
             print("subjectName: \(subjectName.description)")
         }
-        
+
         if let notValidBefore = ca.notValidBefore {
             print(notValidBefore.description(with: .current))
         }
