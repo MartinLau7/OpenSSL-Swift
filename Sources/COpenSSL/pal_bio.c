@@ -1,6 +1,6 @@
 #include "pal_bio.h"
 
-int cc_BIO_get_mem_data(BIO *bp, char **buf) {
+long cc_BIO_get_mem_data(BIO *bp, char **buf) {
     return BIO_get_mem_data(bp, buf);
 }
 

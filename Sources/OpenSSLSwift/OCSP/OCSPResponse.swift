@@ -74,7 +74,7 @@ public class OCSPResponse: @unchecked Sendable {
             return ""
         }
         var isExpired = false
-        if let expirationTime = cert.notAfter {
+        if let expirationTime = cert.notValidAfter {
             isExpired = Date() > expirationTime
         }
         ocspStatus = OCSPStatus(certStatus: .init(rawValue: status)!,
