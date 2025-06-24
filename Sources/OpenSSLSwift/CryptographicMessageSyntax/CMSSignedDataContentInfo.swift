@@ -36,6 +36,9 @@ public class CMSSignedDataContentInfo: CMSPayload {
         //        return Data(bytesNoCopy: UnsafeMutableRawPointer(contentPtr.pointee.data), count: numericCast(contentPtr.pointee.length), deallocator: .none)
 
         let out = BIO_new(BIO_s_mem())
+        defer {
+            BIO_free(out)
+        }
         let flags: UInt32 = numericCast(CMS_NO_SIGNER_CERT_VERIFY | CMS_BINARY)
         let success = CMS_verify(cms, nil, nil, nil, out, flags)
         guard success == 1 else {

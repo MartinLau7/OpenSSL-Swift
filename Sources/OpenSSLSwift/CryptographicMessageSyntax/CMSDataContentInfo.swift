@@ -29,7 +29,6 @@ public class CMSDataContentInfo: CMSPayload {
     }
 
     public func readPayload() throws -> Data {
-        // 根据 CMS_get0_content 实现读取
-        return Data()
+        throw CMSError.operationNotImplemented
     }
 }

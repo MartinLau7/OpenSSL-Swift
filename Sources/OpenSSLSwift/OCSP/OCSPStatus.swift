@@ -9,7 +9,7 @@ public struct OCSPStatus: Codable {
         case good = 0
         case revoked = 1
         case unknown = 2
-        case requestedCertificateNotInResponse = 99
+//        case requestedCertificateNotInResponse = 99
     }
 
     var certStatus: CertState
