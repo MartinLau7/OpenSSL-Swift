@@ -1,52 +1,81 @@
-//     internal import OpenSSL
-//     internal import COpenSSL
+internal import OpenSSL
 
-// #if canImport(FoundationEssentials)
-//     import FoundationEssentials
-// #else
-//     import Foundation
-// #endif
+#if canImport(FoundationEssentials)
+    import FoundationEssentials
+#else
+    import Foundation
+#endif
 
-// /// CMSContentInfo
-// public final class CMSContent: OpenSSLErrReadable {
-//     let cms: OpaquePointer
+public enum CMSContentInfo {
+    case data(_ data: CMSDataContentInfo)
+    case signedData(_ data: CMSSignedDataContentInfo)
+    case envelopedData
+    case signedAndEnvelopedData
+    case digestData
+    case encryptedData
+    case unsupportedTypeDecoding(_ id: ObjectIdentifier)
 
-//     public init() {
-//         cms = CMS_ContentInfo_new()
-//     }
+    public var asn1Identifier: ObjectIdentifier {
+        switch self {
+            case .data:
+                return .pkcs7_data
+            case .signedData:
+                return .pkcs7_signedData
+            case .envelopedData:
+                return .pkcs7_envelopedData
+            case .signedAndEnvelopedData:
+                return .pkcs7_signedAndEnvelopedData
+            case .digestData:
+                return .pkcs7_digestData
+            case .encryptedData:
+                return .pkcs7_encryptedData
+            case .unsupportedTypeDecoding(let id):
+                return id
+        }
+    }
 
-//     public init(owning cms: OpaquePointer) {
-//         self.cms = cms
-//     }
+    public var payload: CMSPayload? {
+        switch self {
+            case .data(let p):
+                return p
+            case .signedData(let p):
+                return p
+            case .envelopedData:
+                return nil
+            case .signedAndEnvelopedData:
+                return nil
+            case .digestData:
+                return nil
+            case .encryptedData:
+                return nil
+            case .unsupportedTypeDecoding:
+                return nil
+        }
+    }
 
-//     public init(data: Data) throws {
-//         let bio = try Bio.load(buffer: data)
-//         cms = d2i_CMS_bio(bio.bio, nil)
-//     }
+    public static func decode(FromDER data: Data) throws -> Self {
+        guard !data.isEmpty else {
+            throw CMSError.invalidDERData
+        }
+        let cms = try data.withReadOnlyMemoryBIO { bio in
+            guard let rawCMS = d2i_CMS_bio(bio, nil) else {
+                throw CryptoError.internalError()
+            }
+            return rawCMS
+        }
 
-//     public convenience init(contentOf url: URL) throws {
-//         guard FileManager.default.fileExists(atPath: url.path) else {
-//             throw CocoaError(.fileNoSuchFile, userInfo: [NSURLErrorKey: url])
-//         }
-//         let data = try Data(contentsOf: url)
-//         try self.init(data: data)
-//     }
+        guard let asn1Object = CMS_get0_type(cms) else {
+            throw CryptoError.internalError()
+        }
+        let objectIdentifier = try ObjectIdentifier.from(asn1Object: asn1Object)
 
-//     /// De-initialize
-//     deinit {
-//         CMS_ContentInfo_free(cms)
-//     }
-// }
-
-// public extension CMSContent {
-//     func readASN1StringContent() throws -> Data {
-//         guard let contentPtr = CMS_get0_content(cms).pointee else {
-//             var errorMessage = "Undefined error"
-//             if let error = readError() {
-//                 errorMessage = "\(error.errorDescription) [\(error.errCode)]"
-//             }
-//             throw CMSError.exception(errorDescription: errorMessage)
-//         }
-//         return Data(bytesNoCopy: UnsafeMutableRawPointer(contentPtr.pointee.data), count: numericCast(contentPtr.pointee.length), deallocator: .none)
-//     }
-// }
+        switch objectIdentifier {
+            case .pkcs7_data:
+                return .data(CMSDataContentInfo(owning: cms))
+            case .pkcs7_signedData:
+                return .signedData(CMSSignedDataContentInfo(owning: cms))
+            default:
+                return .unsupportedTypeDecoding(objectIdentifier)
+        }
+    }
+}

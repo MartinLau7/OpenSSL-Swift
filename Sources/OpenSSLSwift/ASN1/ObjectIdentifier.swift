@@ -61,3 +61,24 @@ public struct ObjectIdentifier: RawRepresentable, Sendable, Hashable {
         return OBJ_txt2obj(oid, 1)
     }
 }
+
+extension ObjectIdentifier {
+    static func from(asn1Object: OpaquePointer) throws -> Self {
+        let len = OBJ_obj2txt(nil, 0, asn1Object, 1)
+        guard len > 0 else {
+            throw CryptoError.internalError()
+        }
+
+        let bufferSize = Int(len) + 1
+        let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: bufferSize)
+        defer {
+            buffer.deallocate()
+        }
+        buffer.initialize(repeating: 0, count: bufferSize)
+        guard OBJ_obj2txt(buffer, len + 1, asn1Object, 1) >= 0 else {
+            throw CryptoError.internalError()
+        }
+        let oidRawValue = String(cString: buffer)
+        return Self(rawValue: oidRawValue)
+    }
+}

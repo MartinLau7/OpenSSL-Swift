@@ -45,9 +45,9 @@ public struct DistinguishedName: CustomStringConvertible {
                 continue
             }
 
-            let oid = X509_NAME_ENTRY_get_object(entry)
-            let asn1_str = X509_NAME_ENTRY_get_data(entry)
-            let len = OBJ_obj2txt(nil, 0, oid, 1)
+            let asn1Object = X509_NAME_ENTRY_get_object(entry)
+            let asn1String = X509_NAME_ENTRY_get_data(entry)
+            let len = OBJ_obj2txt(nil, 0, asn1Object, 1)
             guard len > 0 else {
                 continue
             }
@@ -58,13 +58,13 @@ public struct DistinguishedName: CustomStringConvertible {
                 buffer.deallocate()
             }
             buffer.initialize(repeating: 0, count: bufferSize)
-            guard OBJ_obj2txt(buffer, len + 1, oid, 1) >= 0 else {
+            guard OBJ_obj2txt(buffer, len + 1, asn1Object, 1) >= 0 else {
                 continue
             }
 
             let oidRawValue = String(cString: buffer)
             var encodedName: UnsafeMutablePointer<UInt8>? = nil
-            let stringLength = ASN1_STRING_to_UTF8(&encodedName, asn1_str)
+            let stringLength = ASN1_STRING_to_UTF8(&encodedName, asn1String)
             defer {
                 encodedName?.deallocate()
             }
