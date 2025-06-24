@@ -1,6 +1,6 @@
 public enum CMSError: Error {
     case invalidDERData
-    case serializationFailed(reason: String)
+    case payloadIsEmpty
     case unsupportedTypeDecoding(oid: ObjectIdentifier)
     case failedToDetermineType
     case operationNotImplemented
