@@ -9,18 +9,18 @@ internal import OpenSSL
 public final class Certificate {
     let x509: OpaquePointer
 
-    public init(owning x509: OpaquePointer) throws {
+    init(owning x509: OpaquePointer) {
         self.x509 = x509
     }
 
-    public init(copying x509: OpaquePointer) throws {
+    init(copying x509: OpaquePointer) throws {
         guard X509_up_ref(x509) == 1 else {
             throw CryptoError.internalError()
         }
         self.x509 = x509
     }
 
-    public static func decode(FromDER data: Data) throws -> Self {
+    public static func decode(fromDER data: Data) throws -> Self {
         guard !data.isEmpty else {
             throw CertificateError.invalidDERData
         }
@@ -32,10 +32,10 @@ public final class Certificate {
             }
             return rawX509
         }
-        return try Self(owning: x509)
+        return Self(owning: x509)
     }
 
-    public static func decode(FromPEM data: Data) throws -> Self {
+    public static func decode(fromPEM data: Data) throws -> Self {
         guard !data.isEmpty else {
             throw CertificateError.invalidPEMDocument
         }
@@ -46,7 +46,7 @@ public final class Certificate {
             }
             return x509
         }
-        return try Self(owning: x509)
+        return Self(owning: x509)
     }
 
     /// De-initialize

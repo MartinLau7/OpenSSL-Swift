@@ -16,18 +16,3 @@ unsigned long cc_X509_NAME_hash_ex(X509_NAME *name, OSSL_LIB_CTX *libctx) {
 }
 #endif
 
-STACK_OF(X509) * cc_sk_X509_new(void) {
-    return sk_X509_new_null(); // 实际等价于 sk_X509_new(NULL)
-}
-
-int cc_sk_X509_push(STACK_OF(X509) * stack, X509 *cert) {
-    return sk_X509_push(stack, cert);
-}
-
-void cc_sk_X509_free(STACK_OF(X509) * stack) {
-    sk_X509_free(stack);
-}
-
-void cc_sk_X509_pop_free(STACK_OF(X509) * stack) {
-    sk_X509_pop_free(stack, X509_free);
-}

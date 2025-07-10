@@ -15,11 +15,11 @@ public final class BigNumber {
         bigNum = BN_new()
     }
 
-    public init(owning original: BIGNUM) {
+    init(owning original: BIGNUM) {
         bigNum = original
     }
 
-    public init(copying original: BIGNUM) {
+    init(copying original: BIGNUM) {
         bigNum = BN_new()
         _ = BN_copy(bigNum, original)
     }

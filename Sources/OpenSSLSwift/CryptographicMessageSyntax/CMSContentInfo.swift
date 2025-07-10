@@ -53,7 +53,7 @@ public enum CMSContentInfo {
         }
     }
 
-    public static func decode(FromDER data: Data) throws -> Self {
+    public static func decode(fromDER data: Data) throws -> Self {
         guard !data.isEmpty else {
             throw CMSError.invalidDERData
         }
