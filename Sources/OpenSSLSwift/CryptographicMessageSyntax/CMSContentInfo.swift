@@ -17,39 +17,39 @@ public enum CMSContentInfo {
 
     public var asn1Identifier: ObjectIdentifier {
         switch self {
-            case .data:
-                return .pkcs7_data
-            case .signedData:
-                return .pkcs7_signedData
-            case .envelopedData:
-                return .pkcs7_envelopedData
-            case .signedAndEnvelopedData:
-                return .pkcs7_signedAndEnvelopedData
-            case .digestData:
-                return .pkcs7_digestData
-            case .encryptedData:
-                return .pkcs7_encryptedData
-            case .unsupportedTypeDecoding(let id):
-                return id
+        case .data:
+            return .pkcs7_data
+        case .signedData:
+            return .pkcs7_signedData
+        case .envelopedData:
+            return .pkcs7_envelopedData
+        case .signedAndEnvelopedData:
+            return .pkcs7_signedAndEnvelopedData
+        case .digestData:
+            return .pkcs7_digestData
+        case .encryptedData:
+            return .pkcs7_encryptedData
+        case let .unsupportedTypeDecoding(id):
+            return id
         }
     }
 
     public var payload: CMSPayload? {
         switch self {
-            case .data(let p):
-                return p
-            case .signedData(let p):
-                return p
-            case .envelopedData:
-                return nil
-            case .signedAndEnvelopedData:
-                return nil
-            case .digestData:
-                return nil
-            case .encryptedData:
-                return nil
-            case .unsupportedTypeDecoding:
-                return nil
+        case let .data(p):
+            return p
+        case let .signedData(p):
+            return p
+        case .envelopedData:
+            return nil
+        case .signedAndEnvelopedData:
+            return nil
+        case .digestData:
+            return nil
+        case .encryptedData:
+            return nil
+        case .unsupportedTypeDecoding:
+            return nil
         }
     }
 
@@ -70,12 +70,12 @@ public enum CMSContentInfo {
         let objectIdentifier = try ObjectIdentifier.from(asn1Object: asn1Object)
 
         switch objectIdentifier {
-            case .pkcs7_data:
-                return .data(CMSDataContentInfo(owning: cms))
-            case .pkcs7_signedData:
-                return .signedData(CMSSignedDataContentInfo(owning: cms))
-            default:
-                return .unsupportedTypeDecoding(objectIdentifier)
+        case .pkcs7_data:
+            return .data(CMSDataContentInfo(owning: cms))
+        case .pkcs7_signedData:
+            return .signedData(CMSSignedDataContentInfo(owning: cms))
+        default:
+            return .unsupportedTypeDecoding(objectIdentifier)
         }
     }
 }

@@ -41,14 +41,14 @@ extension Certificate.Version: Comparable {
 extension Certificate.Version: CustomStringConvertible {
     public var description: String {
         switch self {
-            case .v1:
-                return "X509v1"
-            case .v2:
-                return "X509v2"
-            case .v3:
-                return "X509v3"
-            case let unknown:
-                return "X509v\(unknown.rawValue + 1)"
+        case .v1:
+            return "X509v1"
+        case .v2:
+            return "X509v2"
+        case .v3:
+            return "X509v3"
+        case let unknown:
+            return "X509v\(unknown.rawValue + 1)"
         }
     }
 }

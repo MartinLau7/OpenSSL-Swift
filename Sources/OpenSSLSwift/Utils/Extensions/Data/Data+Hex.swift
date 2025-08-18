@@ -6,7 +6,7 @@
 
 extension DataProtocol {
     func hexEncodedString(uppercase: Bool = false, separator: String = "") -> String {
-        return self.map {
+        return map {
             if $0 < 16 {
                 return "0" + String($0, radix: 16, uppercase: uppercase)
             } else {

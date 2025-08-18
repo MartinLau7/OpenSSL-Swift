@@ -8,9 +8,9 @@
 internal import OpenSSL
 
 #if canImport(FoundationEssentials)
-import FoundationEssentials
+    import FoundationEssentials
 #else
-import Foundation
+    import Foundation
 #endif
 
 public actor OpenSSLInitializer {

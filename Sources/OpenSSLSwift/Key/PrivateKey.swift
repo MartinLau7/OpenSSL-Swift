@@ -9,23 +9,23 @@ internal import OpenSSL
 internal import COpenSSL
 
 #if canImport(FoundationEssentials)
-import FoundationEssentials
+    import FoundationEssentials
 #else
-import Foundation
+    import Foundation
 #endif
 
 public final class PrivateKey {
     let key: OpaquePointer
 
     init(owning evpKey: OpaquePointer) {
-        self.key = evpKey
+        key = evpKey
     }
 
     init(copying evpKey: OpaquePointer) throws {
         guard EVP_PKEY_up_ref(evpKey) == 1 else {
             throw CryptoError.internalError()
         }
-        self.key = evpKey
+        key = evpKey
     }
 
     deinit {
@@ -80,8 +80,8 @@ public extension PrivateKey {
         let type = EVP_PKEY_get_id(key)
 
         switch type {
-            case EVP_PKEY_RSA:
-                return .rsa
+        case EVP_PKEY_RSA:
+            return .rsa
 //            case EVP_PKEY_EC:
 //                // 获取 EC 密钥的曲线 OID
 //                var groupName = [CChar](repeating: 0, count: 256)
@@ -91,10 +91,10 @@ public extension PrivateKey {
 //
 //                let curveName = String(cString: groupName)
 //                return .ecdsa(curve: curveName)
-            case EVP_PKEY_ED25519:
-                return .ed25519
-            default:
-                return .unknown(type)
+        case EVP_PKEY_ED25519:
+            return .ed25519
+        default:
+            return .unknown(type)
         }
     }
 }

@@ -13,8 +13,8 @@ public struct ObjectIdentifier: RawRepresentable, Sendable, Hashable {
 
     public init(rawValue: String) {
         self.rawValue = rawValue
-        self.shortName = Self.shortName(for: rawValue)
-        self.longName = Self.longName(for: rawValue)
+        shortName = Self.shortName(for: rawValue)
+        longName = Self.longName(for: rawValue)
     }
 
     public init(rawValue: String, shortName: String? = nil, longName: String? = nil) {

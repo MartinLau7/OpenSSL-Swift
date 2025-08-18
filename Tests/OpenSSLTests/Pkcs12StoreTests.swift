@@ -9,9 +9,9 @@
 import Testing
 
 #if canImport(FoundationEssentials)
-import FoundationEssentials
+    import FoundationEssentials
 #else
-import Foundation
+    import Foundation
 #endif
 
 @Suite("Pkcs12Store Tests")

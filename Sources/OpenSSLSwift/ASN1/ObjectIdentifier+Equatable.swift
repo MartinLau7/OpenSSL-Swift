@@ -1,5 +1,5 @@
 //
-//  ObjectIdentifier+.swift
+//  ObjectIdentifier+Equatable.swift
 //  OpenSSL-Swift
 //
 //  Created by 𝗠𝗮𝗿𝘁𝗶𝗻 𝗟𝗮𝘂 on 2025-06-20.
