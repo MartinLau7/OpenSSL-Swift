@@ -29,9 +29,6 @@ struct Pkcs12StoreTests {
         if let certificate = p12.certificate {
             print(certificate.subjectName?.description ?? "-")
         }
-        if let certificate = p12.certificate {
-            print(certificate.subjectName?.description ?? "-")
-        }
 
         let ca = try p12.getCertificateChain()
         for item in ca {

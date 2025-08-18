@@ -12,7 +12,7 @@ internal import COpenSSL
 public struct OCSPClient: Sendable {
     private let logger: Logger
 
-    public init(logger: Logger = Logger(label: "SwiftCodesign.OCSPClient")) {
+    public init(logger: Logger = Logger(label: "OpenSSLSwift.OCSPClient")) {
         self.logger = logger
     }
 

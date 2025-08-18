@@ -72,6 +72,22 @@ public final class Pkcs12Store {
         return PKCS12_newpass(p12, oldPassword, newPassword) == 1
     }
 
+    public func save(to url: URL) throws {
+        let out = BIO_new_file(url.path, "wb")
+        defer {
+            BIO_free(out)
+        }
+        guard i2d_PKCS12_bio(out, p12) == 1 else {
+            let errCode = ERR_get_error()
+            if errCode != 0 {
+                if let errorString = ERR_error_string(errCode, nil) {
+                    errorMessage = String(cString: errorString)
+                }
+            }
+            throw Pkcs12Error.parseError(error: errorMessage)
+        }
+    }
+
 //    private static func
 }
 
