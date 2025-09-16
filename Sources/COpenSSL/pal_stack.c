@@ -32,7 +32,7 @@ void cc_sk_X509_pop_free(STACK_OF(X509) * stack) {
 }
 
 int cc_sk_X509_num (STACK_OF(X509) * stack) {
-    sk_X509_num(stack);
+    return sk_X509_num(stack);
 }
 
 X509 * cc_sk_X509_value(STACK_OF(X509) * stack, int idx) {
