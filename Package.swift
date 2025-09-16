@@ -83,10 +83,10 @@ let package = Package(
                     ],
                     linkerSettings: [
                         .unsafeFlags([
-                            // "-Xlinker", "--whole-archive",
+                            "-Xlinker", "--whole-archive",
                             "-Xlinker", "/usr/lib/\(targetTriple)/libcrypto.a",
                             "-Xlinker", "/usr/lib/\(targetTriple)/libssl.a",
-                            // "-Xlinker", "--no-whole-archive",
+                            "-Xlinker", "--no-whole-archive",
                         ]),
                     ]
                 ),
